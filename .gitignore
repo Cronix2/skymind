@@ -216,3 +216,26 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ============================================================ Skymind
+# Artefacts d'entraînement (volumineux, reproductibles)
+runs/tb/
+runs/checkpoints/
+runs/eval/
+runs/**/events.out.tfevents.*
+runs/**/monitor.csv
+runs/**/evaluations.npz
+
+# Marqueur d'installation venv (cf. deploy.sh)
+.venv/.skymind_installed
+
+# Captures vidéo / debug
+*.mp4
+*.gif
+*.profile
+*.prof
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
