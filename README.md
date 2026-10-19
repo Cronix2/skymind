@@ -1,3 +1,7 @@
+<p align="center"><img src="Emblème drone vision futuriste.png" alt="Skymind" width="300"></p>
+
+
+
 # Skymind
 
 Simulateur de drone 3D en Python avec une IA qui apprend à voler par
