@@ -25,7 +25,7 @@ IA facultative : `python bootstrap.py --ai --install-only`, puis relancez. Cette
 
 Le profil est enregistré dans `~/.skymind/radio.json` (ou le dossier `SKYMIND_CONFIG_DIR`). Une modification d’axe exige une nouvelle calibration. La radio doit être reconnue par le système comme joystick. La coupure USB met toutes les commandes à zéro et demande à nouveau des gaz bas après reconnexion. Aucun basculement automatique vers le clavier pendant un vol radio.
 
-Clavier : Z/W et S pour les gaz, Q/D pour le lacet, flèches pour tangage/roulis. R réinitialise, V bascule FPV / vue extérieure, I/K oriente la caméra, Échap revient au hangar. Le clavier reste disponible pour ces raccourcis en mode radio.
+Clavier : Z/W et S pour les gaz, Q/D pour le lacet, flèches pour tangage/roulis. F1 affiche les réglages avancés, R réinitialise, V bascule FPV / vue extérieure, I/K oriente la caméra, Échap revient au hangar. Le clavier reste disponible pour ces raccourcis en mode radio.
 
 ## Distribution et validation
 

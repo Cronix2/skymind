@@ -36,7 +36,7 @@ class Radio:
         try:
             data = json.loads(PROFILE.read_text(encoding="utf-8"))
             axes = {n: Axis(**data["axes"][n]) for n in self.axes}
-            if any(a.index < 0 or not a.low < a.center < a.high for a in axes.values()):
+            if len({a.index for a in axes.values()}) != 4 or any(a.index < 0 or not a.low < a.center < a.high for a in axes.values()):
                 raise ValueError("Invalid calibration")
             self.axes = axes
             self.guid = data["guid"]

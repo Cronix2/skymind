@@ -24,7 +24,7 @@ from . import dynamics as D
 from .arena import build_box, random_target_pos
 from .controls import KeyboardController
 from .drone import Drone
-from .hud import HUDOverlay
+from .flight_hud import FlightHUD as HUDOverlay
 from .renderer import Renderer3D, draw_box, draw_target, draw_drone
 
 
@@ -210,14 +210,9 @@ def run(st: Stt.Settings | None = None):
                  fpv_surface=pygame.transform.scale(fpv_surface, (C.FPV_W, C.FPV_H)), fpv_pitch=controls.fpv_pitch,
                  controls=controls, motors_disabled=drone.motors_disabled)
 
-        if drone.motors_disabled:
-            font = pygame.font.SysFont("DejaVu Sans", 20, bold=True)
-            tag = font.render("CRASH — moteurs HS — appuyer sur R", True, (255, 90, 90))
-            screen.blit(tag, (C.WINDOW_W // 2 - tag.get_width() // 2, 8))
-
         if controls.radio is not None:
             status = pygame.font.SysFont("DejaVu Sans", 18).render(controls.radio.message, True, (80, 230, 210))
-            screen.blit(status, (20, 42))
+            screen.blit(status, (24, 94))
         pygame.display.flip()
         clock.tick(C.RENDER_HZ)
 

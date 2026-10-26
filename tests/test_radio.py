@@ -2,11 +2,31 @@ import os
 os.environ["SDL_VIDEODRIVER"]="dummy"
 os.environ["SDL_AUDIODRIVER"]="dummy"
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
+from pathlib import Path
+from tempfile import TemporaryDirectory
 import pygame
 from skymind.radio import Axis, Radio
 
 class RadioTests(unittest.TestCase):
+    def test_profile_roundtrip_and_hotplug(self):
+        with TemporaryDirectory() as folder, patch("skymind.radio.PROFILE",Path(folder)/"radio.json"), patch("pygame.joystick.get_count",return_value=0):
+            radio=Radio()
+            device=Mock()
+            device.get_guid.return_value="test-guid"
+            device.get_instance_id.return_value=42
+            radio.device=device
+            radio.axes["pitch"].inverted=True
+            radio.save()
+            loaded=Radio()
+            self.assertTrue(loaded.calibrated)
+            self.assertTrue(loaded.axes["pitch"].inverted)
+            self.assertEqual(loaded.guid,"test-guid")
+            radio.armed=True
+            radio.event(pygame.event.Event(pygame.JOYDEVICEREMOVED,instance_id=42))
+            self.assertIsNone(radio.device)
+            self.assertFalse(radio.armed)
+
     def test_calibrated_ranges(self):
         a=Axis(low=-.8,center=.1,high=.9)
         self.assertEqual(a.value(.1),0)
