@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skymind-flight"
+version = "0.2.0"
+description = "FPV drone simulator with USB radio support"
+requires-python = ">=3.10,<3.13"
+dependencies = ["numpy>=1.24,<3", "pygame>=2.5,<3", "pybullet>=3.2.6,<4"]
+
+[project.optional-dependencies]
+ai = ["gymnasium>=0.29,<2", "stable-baselines3>=2.3,<3", "tensorboard>=2.14,<3"]
+
+[project.scripts]
+skymind = "skymind.app:main"
+
+[tool.setuptools.packages.find]
+include = ["skymind*"]

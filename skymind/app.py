@@ -9,7 +9,7 @@ ou via deploy.sh :
 """
 from __future__ import annotations
 
-from . import menu
+from . import hangar as menu
 
 
 def main():
