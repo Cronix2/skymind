@@ -12,6 +12,7 @@ TEAL=(64,231,197)
 
 def run():
     pygame.init()
+    legacy.Field.H=28
     screen=pygame.display.set_mode((1280,720), pygame.SCALED | pygame.RESIZABLE)
     pygame.display.set_caption("SKYMIND / Flight deck")
     clock=pygame.time.Clock()

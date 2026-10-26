@@ -104,6 +104,8 @@ def run(st: Stt.Settings | None = None):
     def do_reset():
         nonlocal sim_time, target_pos
         drone.reset()
+        if controls.radio is not None:
+            controls.radio.armed = False
         target_pos[:] = np.array(random_target_pos(rng, arena_dims))
         sim_time = 0.0
         if controls.randomize_each_reset:
