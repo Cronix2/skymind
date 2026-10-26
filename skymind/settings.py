@@ -17,6 +17,9 @@ from . import config as C
 # ============================================================ Réglages
 @dataclass
 class Settings:
+    input_mode: str = "Clavier"
+    fpv_fullscreen: bool = True
+
     # --- Arène (m) ---
     arena_x: float = C.BOX_SIZE   # longueur (axe X)
     arena_y: float = C.BOX_SIZE   # largeur  (axe Y)

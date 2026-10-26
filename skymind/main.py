@@ -78,13 +78,16 @@ def run(st: Stt.Settings | None = None):
         nerv_profile_name=st.nerv_profile,
         drag_profile_name=st.drag_profile,
     )
+    if st.input_mode == "Radio USB":
+        from .radio import Radio
+        controls.radio = Radio()
     drone.apply_dynamics(controls.dyn_params)
 
     rd = Renderer3D(screen)
     cam_eye, cam_tgt = _cam_for_arena(st)
     rd.cam.look_at(cam_eye, cam_tgt)
 
-    fpv_surface = pygame.Surface((C.FPV_W, C.FPV_H))
+    fpv_surface = pygame.Surface((C.WINDOW_W, C.WINDOW_H) if st.fpv_fullscreen else (C.FPV_W, C.FPV_H))
     rd_fpv = Renderer3D(fpv_surface, fov_deg=C.FPV_FOV_DEG)
 
     hud = HUDOverlay(screen)
@@ -118,6 +121,8 @@ def run(st: Stt.Settings | None = None):
         for event in pygame.event.get():
             if hud.handle_event(event, controls):
                 continue
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_v:
+                st.fpv_fullscreen = not st.fpv_fullscreen
             controls.handle_event(event)
         if controls.request_quit:
             break
@@ -197,8 +202,10 @@ def run(st: Stt.Settings | None = None):
             rd_fpv.render()
         frame_idx += 1
 
+        if st.fpv_fullscreen:
+            screen.blit(pygame.transform.scale(fpv_surface, screen.get_size()), (0, 0))
         hud.draw(sticks, state, target_pos, sim_time, fps=fps_smooth,
-                 fpv_surface=fpv_surface, fpv_pitch=controls.fpv_pitch,
+                 fpv_surface=pygame.transform.scale(fpv_surface, (C.FPV_W, C.FPV_H)), fpv_pitch=controls.fpv_pitch,
                  controls=controls, motors_disabled=drone.motors_disabled)
 
         if drone.motors_disabled:
@@ -206,6 +213,9 @@ def run(st: Stt.Settings | None = None):
             tag = font.render("CRASH — moteurs HS — appuyer sur R", True, (255, 90, 90))
             screen.blit(tag, (C.WINDOW_W // 2 - tag.get_width() // 2, 8))
 
+        if controls.radio is not None:
+            status = pygame.font.SysFont("DejaVu Sans", 18).render(controls.radio.message, True, (80, 230, 210))
+            screen.blit(status, (20, 42))
         pygame.display.flip()
         clock.tick(C.RENDER_HZ)
 

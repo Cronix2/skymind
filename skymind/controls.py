@@ -37,6 +37,7 @@ class KeyboardController:
                  nerv_profile_name: str = D.DEFAULT_NERV,
                  drag_profile_name: str = D.DEFAULT_DRAG):
         self.sticks = Sticks()
+        self.radio = None
         self.request_reset = False
         self.request_quit = False
         self.fpv_pitch = 0.0  # rad — orientation verticale de la caméra FPV
@@ -133,6 +134,8 @@ class KeyboardController:
 
     # ------------------------------------------------------------------ events
     def handle_event(self, event):
+        if self.radio is not None:
+            self.radio.event(event)
         if event.type == pygame.QUIT:
             self.request_quit = True
         elif event.type == pygame.KEYDOWN:
@@ -172,6 +175,8 @@ class KeyboardController:
             self.fpv_pitch = max(C.FPV_PITCH_MIN, self.fpv_pitch - C.FPV_PITCH_RATE * dt)
         if keys[pygame.K_j]:
             self.fpv_pitch *= max(0.0, 1.0 - 5.0 * dt)
+        if self.radio is not None:
+            self.sticks = Sticks(**self.radio.read())
         return self.sticks
 
     # ------------------------------------------------------------------ shaping
