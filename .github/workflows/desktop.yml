@@ -22,6 +22,7 @@ jobs:
       - run: python -m pip install . pyinstaller
       - run: python -m unittest discover -s tests -v
       - run: python -m PyInstaller --noconfirm --windowed --name SkyMind --collect-all pybullet skymind/desktop_entry.py
+      - run: python -c "import subprocess,sys; from pathlib import Path; exe=Path('dist/SkyMind')/('SkyMind.exe' if sys.platform=='win32' else 'SkyMind'); subprocess.run([str(exe.resolve()),'--smoke-test'],check=True,timeout=60)"
       - run: tar -czf SkyMind-${{ runner.os }}.tar.gz -C dist .
       - uses: actions/upload-artifact@v4
         with:
